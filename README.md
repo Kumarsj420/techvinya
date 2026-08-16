@@ -132,7 +132,23 @@ utilities throughout (`bg-ink`, `text-brand`, `border-line`, …).
 
 **Type**: Bricolage Grotesque for display headings (`.display`), Geist Sans for body, Geist Mono
 for labels and data, and Instrument Serif italic for the single accent word in a headline
-(`.accent-word`). All loaded via `next/font`, so there is no layout shift and no external request.
+(`.accent-word`).
+
+The `.woff2` files are committed to `src/fonts/` and loaded with `next/font/local`. This is
+deliberate: `next/font/google` downloads font files **at build time**, so any machine or CI runner
+without egress to `fonts.gstatic.com` fails the build with `Can't resolve
+@vercel/turbopack-next/internal/font/google/font`. Self-hosting makes the build work offline and
+removes a third-party request at runtime. Both families are OFL-licensed and redistributable.
+
+Two constraints worth knowing before touching the font setup:
+
+1. The loader variables (`--font-brand-*`) are applied to `<html>`, not `<body>`. The `@theme`
+   tokens (`--font-sans`, `--font-display`, …) are declared on `:root` and reference them; a
+   custom property that references an undefined variable is *guaranteed-invalid* and computes to
+   nothing, so setting them lower in the tree silently kills the whole font stack.
+2. The loader variables must not reuse a Tailwind theme token name (`--font-display`,
+   `--font-serif`, `--font-mono`, `--font-sans`), or the `@theme` declaration references itself
+   and CSS drops the var() cycle.
 
 **Custom utilities**: `container-x`, `card`, `card-lit`, `glow`, `display`, `accent-word`, plus the
 `.grid-bg`, `.dot-bg`, `.noise`, `.reveal`, `.marquee-*` and animation classes.

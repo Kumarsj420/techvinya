@@ -1,27 +1,49 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Bricolage_Grotesque, Instrument_Serif } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/fx/ScrollProgress";
 import { site } from "@/lib/site";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+/*
+ * Fonts are self-hosted from src/fonts rather than pulled with
+ * `next/font/google`. The Google loader downloads font files at build time, so
+ * any machine or CI runner without egress to fonts.gstatic.com fails the build
+ * with "Can't resolve @vercel/turbopack-next/internal/font/google/font".
+ * Serving them from the repo makes the build hermetic — and removes a
+ * third-party request at runtime.
+ */
+
+const geistSans = localFont({
+  src: "../fonts/Geist-Variable.woff2",
+  variable: "--font-brand-sans",
+  weight: "100 900",
+  display: "swap",
+});
+
+const geistMono = localFont({
+  src: "../fonts/GeistMono-Variable.woff2",
+  variable: "--font-brand-mono",
+  weight: "100 900",
+  display: "swap",
+});
 
 /* Display face — playful, tightly-set grotesque for headlines. */
-const display = Bricolage_Grotesque({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+const display = localFont({
+  src: "../fonts/BricolageGrotesque-Variable.woff2",
+  variable: "--font-brand-display",
+  weight: "200 800",
+  display: "swap",
 });
 
 /* One elegant italic serif, used only for the accent word in headlines. */
-const serif = Instrument_Serif({
-  variable: "--font-serif",
-  subsets: ["latin"],
+const serif = localFont({
+  src: "../fonts/InstrumentSerif-Italic.woff2",
+  variable: "--font-brand-serif",
   weight: "400",
   style: "italic",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -88,10 +110,11 @@ const organizationSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${serif.variable} font-sans antialiased`}
-      >
+    <html
+      lang="en"
+      className={`dark ${geistSans.variable} ${geistMono.variable} ${display.variable} ${serif.variable}`}
+    >
+      <body className="font-sans antialiased">
         <div className="noise" aria-hidden="true" />
         <ScrollProgress />
 
