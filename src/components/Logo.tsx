@@ -51,7 +51,10 @@ export function Logo({ className = "" }: { className?: string }) {
       aria-label={`${site.name} — home`}
     >
       <LogoMark className="size-9 transition-transform duration-300 group-hover:scale-105" />
-      <span className="text-lg font-semibold tracking-tight text-white">
+      {/* Wordmark uses the display face so the logo matches the site's headings
+          rather than its body text. `display` supplies weight 600 and the -3.5%
+          tracking; leading-none keeps the box tight against the mark. */}
+      <span className="display text-xl leading-none text-white">
         Tech<span className="text-brand">Vinya</span>
       </span>
     </Link>
