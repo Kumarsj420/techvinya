@@ -1,20 +1,56 @@
+/**
+ * Site-wide configuration.
+ *
+ * Contact details are read from NEXT_PUBLIC_* environment variables so they can
+ * be changed without a code change, and so real addresses and phone numbers are
+ * not committed to a public repository where scrapers harvest them.
+ *
+ * These values are NOT secrets. Anything prefixed NEXT_PUBLIC_ is inlined into
+ * the JavaScript bundle and rendered into the HTML — that is the point, since
+ * the site publishes them. Genuine secrets (RESEND_API_KEY) are read server-side
+ * only, in src/app/api/contact/route.ts, and must never gain that prefix.
+ *
+ * Fallbacks are deliberately obvious placeholders: a missing variable should be
+ * visible on the page, not silently wrong.
+ */
+
+const env = {
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+  salesEmail: process.env.NEXT_PUBLIC_SALES_EMAIL,
+  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE,
+  address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS,
+  linkedin: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN,
+  x: process.env.NEXT_PUBLIC_SOCIAL_X,
+  github: process.env.NEXT_PUBLIC_SOCIAL_GITHUB,
+};
+
+/** Strips spaces, hyphens and brackets so "+91 98765 43210" becomes a tel: href. */
+function telHref(phone: string) {
+  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
+
+const phone = env.phone ?? "+91 00000 00000";
+
 export const site = {
   name: "TechVinya",
   legalName: "TechVinya Technologies",
   tagline: "Product engineering for regulated, fast-moving industries",
   description:
     "TechVinya designs and builds web apps, mobile apps and AI systems for travel, healthcare, cybersecurity and chatbot startups — from first prototype to production scale.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://techvinya.com",
-  email: "hello@techvinya.com",
-  salesEmail: "sales@techvinya.com",
-  phone: "+91 00000 00000",
-  phoneHref: "tel:+910000000000",
-  address: "Remote-first · India",
+  url: env.siteUrl ?? "https://techvinya.com",
+
+  email: env.email ?? "hello@example.com",
+  salesEmail: env.salesEmail ?? "sales@example.com",
+  phone,
+  phoneHref: telHref(phone),
+  address: env.address ?? "Remote-first · India",
+
   founded: 2026,
   socials: {
-    linkedin: "https://www.linkedin.com/company/techvinya",
-    x: "https://x.com/techvinya",
-    github: "https://github.com/techvinya",
+    linkedin: env.linkedin ?? "https://www.linkedin.com/company/techvinya",
+    x: env.x ?? "https://x.com/techvinya",
+    github: env.github ?? "https://github.com/techvinya",
   },
 } as const;
 

@@ -42,8 +42,8 @@ npm run lint                     # ESLint
 
 Almost all copy lives in two files — no component edits needed for routine changes:
 
-- **`src/lib/site.ts`** — company name, tagline, email, phone, address, social links, header nav,
-  hero stats.
+- **`src/lib/site.ts`** — company name, tagline, header nav, hero stats. Contact details are read
+  from environment variables here (see below), not hard-coded.
 - **`src/lib/services.ts`** — the four industry practices (each with capabilities, standards,
   stack, outcomes, FAQs), the cross-cutting capability list, the 5-step process, and the three
   engagement/pricing tiers.
@@ -56,6 +56,43 @@ list on `/about`, and the home-page FAQ + principles at the top of `src/app/page
 
 ---
 
+## Configuration
+
+All contact details and secrets are environment variables. Copy `.env.example` to `.env.local` for
+local work, and set the same keys in your host's dashboard for production.
+
+### Public — `NEXT_PUBLIC_*`
+
+These are **inlined into the JavaScript bundle and rendered into the HTML**. They are not secret;
+the site publishes them deliberately. They live in the environment so contact details can change
+without a code change, and so real addresses are not committed to a public repository.
+
+| Variable | Used for |
+| -------- | -------- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URLs, sitemap, OG tags |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Footer, closing CTA, contact page, privacy, terms, schema.org |
+| `NEXT_PUBLIC_SALES_EMAIL` | Contact page |
+| `NEXT_PUBLIC_CONTACT_PHONE` | Footer and contact page (the `tel:` link is derived from it) |
+| `NEXT_PUBLIC_CONTACT_ADDRESS` | Footer and contact page |
+| `NEXT_PUBLIC_SOCIAL_LINKEDIN` / `_X` / `_GITHUB` | Footer icons, schema.org `sameAs` |
+
+If one is unset the site falls back to an obvious placeholder (`hello@example.com`) rather than
+failing — a missing variable should be visible on the page, not silently wrong.
+
+> **`NEXT_PUBLIC_*` values are baked in at build time.** Changing one in Vercel does nothing until
+> you redeploy.
+
+### Secrets — server-side only
+
+Read exclusively in `src/app/api/contact/route.ts`; they never reach the browser. **Never add the
+`NEXT_PUBLIC_` prefix to these** — that would publish your API key in the JavaScript bundle.
+
+| Variable | Used for |
+| -------- | -------- |
+| `RESEND_API_KEY` | Sending the enquiry email |
+| `CONTACT_FROM_EMAIL` | Verified sender address |
+| `CONTACT_TO_EMAIL` | Where enquiries are delivered (comma-separate for several) |
+
 ## Contact form
 
 `POST /api/contact` validates the payload, checks a honeypot field, applies a per-IP rate limit
@@ -66,18 +103,15 @@ server console** — so local development and preview deploys work with no confi
 
 To turn on real delivery:
 
-1. Create a Resend account and add your domain (`techvinya.com`), completing the DNS records.
-2. Create an API key.
-3. Set in your host's environment:
-   - `RESEND_API_KEY`
-   - `CONTACT_FROM_EMAIL` — e.g. `TechVinya <hello@techvinya.com>` (must be a verified domain)
-   - `CONTACT_TO_EMAIL` — where enquiries land; comma-separate for several recipients
+1. Create a Resend account and add **`send.techvinya.com`** as the sending domain — a subdomain,
+   not the apex. Your mailbox provider (Zoho, Google Workspace) already owns the apex SPF record,
+   and a domain may only have one; putting Resend on a subdomain keeps the two from colliding.
+2. Add the DKIM records Resend generates to Cloudflare DNS.
+3. Set `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL` in your host's environment.
 
 The rate limiter is in-memory, which is correct for a single instance. If the site is ever scaled
 across multiple instances, move it to Upstash Redis — see the note in
 `src/app/api/contact/route.ts`.
-
----
 
 ## Deploying
 
@@ -102,10 +136,10 @@ reverse proxy on port 3000.
 
 ## Before going live — checklist
 
-- [ ] Replace placeholder contact details in `src/lib/site.ts`: `email`, `salesEmail`, `phone`,
-      `phoneHref`, `address`, and the three social URLs.
+- [ ] Set every `NEXT_PUBLIC_*` variable in your host's environment — especially
+      `NEXT_PUBLIC_CONTACT_PHONE` and the three social URLs, which are still placeholders.
+- [ ] Redeploy after changing any `NEXT_PUBLIC_*` value; they are baked in at build time.
 - [ ] Confirm the pricing in `engagements` (`src/lib/services.ts`) matches what you actually quote.
-- [ ] Set `NEXT_PUBLIC_SITE_URL` to the real domain so canonicals and OG tags are correct.
 - [ ] Configure Resend and send one test enquiry end to end.
 - [ ] Have a lawyer or advisor review `/privacy` and `/terms` — they are sensible drafts, not
       jurisdiction-specific legal advice.
