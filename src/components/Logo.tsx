@@ -19,15 +19,15 @@ export function Logo({ className = "" }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={`group inline-flex items-center gap-2.5 ${className}`}
+      className={`group inline-flex items-center gap-1.25 ${className}`}
       aria-label={`${site.name} — home`}
     >
-      <LogoMark className="size-9 text-brand transition-transform duration-300 group-hover:scale-105" />
+      <LogoMark className="size-7 text-brand transition-transform duration-300 group-hover:scale-115" />
       {/* Wordmark uses the display face so the logo matches the site's headings
           rather than its body text. `display` supplies weight 600 and the -3.5%
           tracking; leading-none keeps the box tight against the mark. */}
       <span className="display text-xl leading-none text-white">
-        Tech <span className="text-brand">Vinya</span>
+        Tech <span >Vinya</span>
       </span>
     </Link>
   );
