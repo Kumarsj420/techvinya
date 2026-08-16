@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/site";
 
@@ -5,7 +7,16 @@ export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  /*
+   * Satori (the renderer behind ImageResponse) cannot read woff2, so this is a
+   * static SemiBold woff rather than the variable woff2 the site itself uses.
+   * Read from disk at render time — bundlers do not follow font imports here.
+   */
+  const display = await readFile(
+    join(process.cwd(), "src/fonts/BricolageGrotesque-SemiBold.woff"),
+  );
+
   return new ImageResponse(
     (
       <div
@@ -19,7 +30,7 @@ export default function OpengraphImage() {
           backgroundImage:
             "radial-gradient(circle at 12% 0%, rgba(34,211,238,0.28), transparent 55%), radial-gradient(circle at 92% 12%, rgba(99,102,241,0.24), transparent 50%)",
           padding: 72,
-          fontFamily: "sans-serif",
+          fontFamily: "Bricolage Grotesque, sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
@@ -52,7 +63,7 @@ export default function OpengraphImage() {
               fontWeight: 700,
               color: "#ffffff",
               lineHeight: 1.12,
-              letterSpacing: -1.6,
+              letterSpacing: -2.4,
               maxWidth: 940,
             }}
           >
@@ -83,6 +94,16 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    {
+      ...size,
+      fonts: [
+        {
+          name: "Bricolage Grotesque",
+          data: display,
+          weight: 600,
+          style: "normal",
+        },
+      ],
+    },
   );
 }
