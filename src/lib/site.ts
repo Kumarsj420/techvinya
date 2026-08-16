@@ -47,10 +47,15 @@ export const site = {
   address: env.address ?? "Remote-first · India",
 
   founded: 2026,
+  /*
+   * Empty string means "no account yet" — the footer hides the icon and the
+   * schema.org sameAs list drops it. Set the matching NEXT_PUBLIC_SOCIAL_*
+   * variable and the link reappears with no code change.
+   */
   socials: {
-    linkedin: env.linkedin ?? "https://www.linkedin.com/company/techvinya",
-    x: env.x ?? "https://x.com/techvinya",
-    github: env.github ?? "https://github.com/techvinya",
+    linkedin: env.linkedin ?? "",
+    x: env.x ?? "",
+    github: env.github ?? "",
   },
 } as const;
 

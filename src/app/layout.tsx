@@ -99,7 +99,7 @@ const organizationSchema = {
   description: site.description,
   email: site.email,
   foundingDate: String(site.founded),
-  sameAs: Object.values(site.socials),
+  sameAs: Object.values(site.socials).filter(Boolean),
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "sales",
