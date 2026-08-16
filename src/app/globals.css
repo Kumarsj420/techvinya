@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand palette — deep navy + electric cyan */
+  --color-ink: #070b14;
+  --color-surface: #0f1729;
+  --color-surface-2: #16203a;
+  --color-line: #1e2a45;
+
+  --color-brand: #22d3ee;
+  --color-brand-soft: #67e8f9;
+  --color-brand-deep: #0e7490;
+  --color-accent: #6366f1;
+  --color-accent-soft: #a5b4fc;
+
+  --color-body: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-faint: #64748b;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-xl2: 1.25rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* offset for the sticky header when jumping to #anchors */
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ink);
+  color: var(--color-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-ink);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Gradient text used for key headline fragments */
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-soft),
+    var(--color-brand) 45%,
+    var(--color-accent-soft)
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline card border that glows slightly on hover */
+@utility card {
+  position: relative;
+  border-radius: var(--radius-xl2);
+  border: 1px solid var(--color-line);
+  background-color: color-mix(in oklab, var(--color-surface) 70%, transparent);
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Subtle radial glow behind hero / CTA blocks */
+@utility glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+/* Fine grid backdrop */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Scroll-reveal — starts hidden, .is-visible is added by an IntersectionObserver */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Marquee for the trust strip */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
