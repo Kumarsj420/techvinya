@@ -120,18 +120,42 @@ reverse proxy on port 3000.
 Brand tokens are defined once in `src/app/globals.css` under `@theme` and used as Tailwind
 utilities throughout (`bg-ink`, `text-brand`, `border-line`, …).
 
-| Token           | Value     | Use                          |
-| --------------- | --------- | ---------------------------- |
-| `ink`           | `#070b14` | Page background              |
-| `surface`       | `#0f1729` | Cards, alternating sections  |
-| `line`          | `#1e2a45` | Borders, dividers            |
-| `brand`         | `#22d3ee` | Primary accent, CTAs         |
-| `accent`        | `#6366f1` | Secondary accent, glows      |
-| `body` / `muted` / `faint` | `#e2e8f0` / `#94a3b8` / `#64748b` | Text hierarchy |
+| Token           | Value     | Use                                    |
+| --------------- | --------- | -------------------------------------- |
+| `ink`           | `#03060c` | Page background                        |
+| `ink-2`         | `#060b15` | Alternating section bands              |
+| `surface`       | `#0d1524` | Cards                                  |
+| `line`          | `#1b2740` | Borders, dividers                      |
+| `brand`         | `#22d3ee` | Primary accent, CTAs                   |
+| `travel` / `medical` / `cyber` / `ai` | `#22d3ee` / `#34d399` / `#a78bfa` / `#fbbf24` | Per-practice accents |
+| `body` / `muted` / `faint` | `#e8eefa` / `#9aabc4` / `#6b7c96` | Text hierarchy |
 
-Custom utilities: `container-x`, `card`, `glow`, `text-gradient`, plus `.grid-bg`, `.reveal` and
-`.marquee-track`. All motion is disabled under `prefers-reduced-motion`.
+**Type**: Bricolage Grotesque for display headings (`.display`), Geist Sans for body, Geist Mono
+for labels and data, and Instrument Serif italic for the single accent word in a headline
+(`.accent-word`). All loaded via `next/font`, so there is no layout shift and no external request.
+
+**Custom utilities**: `container-x`, `card`, `card-lit`, `glow`, `display`, `accent-word`, plus the
+`.grid-bg`, `.dot-bg`, `.noise`, `.reveal`, `.marquee-*` and animation classes.
+
+### Component layers
+
+- `src/components/fx/` — `AuroraBackdrop` / `SectionBackdrop` / `BeamBackdrop` (animated decorative
+  SVG), `Counter` (count-up stats), `SpotlightCard` (cursor-follow highlight), `Marquee`,
+  `ScrollProgress`.
+- `src/components/mockups/Screens.tsx` — the four fake product screens (booking search, patient
+  chart, security triage queue, cited chat) and the hero collage. Pure markup and CSS: no images,
+  no chart library, restyles automatically with the tokens.
+- `src/components/sections/IndustryTabs.tsx` — the tabbed practice showcase that pairs each
+  industry's copy with its screen and accent colour.
+
+### Motion
+
+Scroll reveals, marquees, float, pulse rings, count-ups, the animated SVG backdrops and the light
+sweep are all disabled under `prefers-reduced-motion: reduce`. `Reveal` and `SpotlightCard` write
+directly to the DOM rather than through React state, so scrolling and mouse movement do not
+re-render the page.
 
 Accessibility: skip link, visible focus rings, labelled form fields, `aria-expanded` on the mobile
-menu toggle, and scroll-reveal content that is present in the HTML (and forced visible via
-`<noscript>`) so it never hides content from crawlers or non-JS users.
+menu, real `role="tablist"`/`tab`/`tabpanel` semantics on the practice switcher, and scroll-reveal
+content that is present in the HTML (and forced visible via `<noscript>`) so it never hides content
+from crawlers or non-JS users.

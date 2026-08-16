@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
+import { AuroraBackdrop } from "@/components/fx/Backdrop";
 import { Reveal } from "@/components/Reveal";
 import { CtaBanner } from "@/components/CtaBanner";
 import { Check } from "@/components/Icons";
@@ -45,13 +46,13 @@ export default function AboutPage() {
     <>
       <section className="relative overflow-hidden border-b border-line pt-16 pb-16 sm:pt-24 sm:pb-20">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div className="glow -top-40 right-0 size-120 bg-accent" aria-hidden="true" />
+        <AuroraBackdrop variant="amber" />
         <Container className="relative">
-          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-brand uppercase">
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.22em] text-brand uppercase">
             About {site.name}
           </p>
-          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
-            A small studio for products that can&apos;t afford to be flaky.
+          <h1 className="display max-w-3xl text-5xl text-balance text-white sm:text-6xl lg:text-7xl">
+            A small studio for products that can&apos;t afford to be <span className="accent-word">flaky</span>.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">
             {site.name} was founded on a simple observation: the industries where software is
@@ -65,7 +66,7 @@ export default function AboutPage() {
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
           <div className="space-y-6 text-lg leading-relaxed text-muted">
-            <h2 className="text-3xl font-semibold tracking-tight text-white">Why we exist</h2>
+            <h2 className="display text-3xl text-white sm:text-4xl">Why we exist</h2>
             <p>
               Most startups don&apos;t fail because they picked the wrong framework. They fail
               because the booking flow dropped payments during the one week that mattered, because
@@ -86,7 +87,7 @@ export default function AboutPage() {
           </div>
 
           <div className="card h-fit p-8 sm:p-10">
-            <h3 className="text-lg font-semibold text-white">At a glance</h3>
+            <h3 className="display text-lg text-white">At a glance</h3>
             <dl className="mt-6 space-y-5">
               {[
                 ["Founded", String(site.founded)],
@@ -124,7 +125,7 @@ export default function AboutPage() {
                 <span className="inline-flex size-9 items-center justify-center rounded-full bg-brand/12 text-brand">
                   <Check className="size-4" />
                 </span>
-                <h3 className="mt-5 text-lg font-semibold text-white">{value.title}</h3>
+                <h3 className="display mt-5 text-xl text-white">{value.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{value.body}</p>
               </div>
             </Reveal>
@@ -145,7 +146,7 @@ export default function AboutPage() {
             <Reveal key={phase.step} delay={i * 50}>
               <div className="card h-full p-6">
                 <span className="font-mono text-xs text-brand">{phase.step}</span>
-                <h3 className="mt-3 font-semibold text-white">{phase.title}</h3>
+                <h3 className="display mt-3 text-lg text-white">{phase.title}</h3>
                 <p className="mt-1 text-xs text-faint">{phase.duration}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted">{phase.body}</p>
               </div>

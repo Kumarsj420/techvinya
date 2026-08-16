@@ -1,12 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Bricolage_Grotesque, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/fx/ScrollProgress";
 import { site } from "@/lib/site";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+
+/* Display face — playful, tightly-set grotesque for headlines. */
+const display = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+/* One elegant italic serif, used only for the accent word in headlines. */
+const serif = Instrument_Serif({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -73,7 +89,12 @@ const organizationSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${serif.variable} font-sans antialiased`}
+      >
+        <div className="noise" aria-hidden="true" />
+        <ScrollProgress />
+
         {/* Without JS, scroll-reveal elements must not stay invisible. */}
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>

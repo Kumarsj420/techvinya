@@ -56,7 +56,7 @@ export function ContactForm({ defaultService = "" }: { defaultService?: string }
         <span className="inline-flex size-12 items-center justify-center rounded-full bg-brand/15 text-brand">
           <Check className="size-6" />
         </span>
-        <h3 className="text-2xl font-semibold text-white">Thanks — that&apos;s landed.</h3>
+        <h3 className="display text-2xl text-white">Thanks — that&apos;s landed.</h3>
         <p className="text-muted">
           We read every enquiry ourselves. Expect a reply within one business day, usually with a
           couple of questions and a suggested time to talk.

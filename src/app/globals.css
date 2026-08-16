@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand palette — deep navy + electric cyan */
-  --color-ink: #070b14;
-  --color-surface: #0f1729;
-  --color-surface-2: #16203a;
-  --color-line: #1e2a45;
+  /* ---------------------------------------------------------- foundation */
+  --color-ink: #03060c;
+  --color-ink-2: #060b15;
+  --color-surface: #0d1524;
+  --color-surface-2: #131d31;
+  --color-line: #1b2740;
+  --color-line-soft: #141d2f;
 
+  /* --------------------------------------------------------------- brand */
   --color-brand: #22d3ee;
-  --color-brand-soft: #67e8f9;
-  --color-brand-deep: #0e7490;
+  --color-brand-soft: #7debfb;
+  --color-brand-deep: #0b7c94;
+
+  /* Per-industry accents — colour-codes the whole site */
+  --color-travel: #22d3ee;
+  --color-medical: #34d399;
+  --color-cyber: #a78bfa;
+  --color-ai: #fbbf24;
+
   --color-accent: #6366f1;
-  --color-accent-soft: #a5b4fc;
+  --color-pop: #fbbf24;
 
-  --color-body: #e2e8f0;
-  --color-muted: #94a3b8;
-  --color-faint: #64748b;
+  /* ---------------------------------------------------------------- text */
+  --color-body: #e8eefa;
+  --color-muted: #9aabc4;
+  --color-faint: #6b7c96;
 
+  /* --------------------------------------------------------------- fonts */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-geist-sans), sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
+  /* -------------------------------------------------------------- radius */
+  --radius-card: 1.5rem;
   --radius-xl2: 1.25rem;
+
+  /* ------------------------------------------------------------ easing */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
@@ -29,7 +48,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* offset for the sticky header when jumping to #anchors */
   scroll-padding-top: 6rem;
 }
 
@@ -37,6 +55,7 @@ body {
   background-color: var(--color-ink);
   color: var(--color-body);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -47,65 +66,112 @@ body {
 *:focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
+}
+
+/* Display type: tight, confident, slightly playful */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+/* The one elegant flourish — an italic serif word inside a display heading */
+@utility accent-word {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background-image: linear-gradient(100deg, var(--color-brand-soft), var(--color-brand) 60%);
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.06em;
 }
 
 @utility container-x {
   width: 100%;
-  max-width: 80rem;
+  max-width: 78rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
 
-/* Gradient text used for key headline fragments */
 @utility text-gradient {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-brand-soft),
-    var(--color-brand) 45%,
-    var(--color-accent-soft)
-  );
+  background-image: linear-gradient(100deg, var(--color-brand-soft), var(--color-brand) 45%, #a5b4fc);
   background-clip: text;
   color: transparent;
 }
 
-/* Hairline card border that glows slightly on hover */
+/* ------------------------------------------------------------------ cards */
+
 @utility card {
   position: relative;
-  border-radius: var(--radius-xl2);
+  border-radius: var(--radius-card);
   border: 1px solid var(--color-line);
-  background-color: color-mix(in oklab, var(--color-surface) 70%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 60%),
+    color-mix(in oklab, var(--color-surface) 82%, transparent);
   transition:
-    border-color 0.25s ease,
-    background-color 0.25s ease,
-    transform 0.25s ease;
+    border-color 0.4s var(--ease-out-quint),
+    transform 0.4s var(--ease-out-quint),
+    background-color 0.4s var(--ease-out-quint);
 }
 
-/* Subtle radial glow behind hero / CTA blocks */
+/* Hairline highlight along the top edge — the "glass" tell */
+@utility card-lit {
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 12%;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(125, 235, 251, 0.5), transparent);
+  }
+}
+
 @utility glow {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.28;
+  filter: blur(100px);
+  opacity: 0.22;
   pointer-events: none;
 }
 
-/* Fine grid backdrop */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+/* ------------------------------------------------------------- background */
+
+/* Film grain — the cheapest way to stop a dark page looking like flat plastic */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Scroll-reveal — starts hidden, .is-visible is added by an IntersectionObserver */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(139, 154, 177, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 154, 177, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 78% 62% at 50% 0%, #000 35%, transparent 100%);
+}
+
+.dot-bg {
+  background-image: radial-gradient(rgba(139, 154, 177, 0.14) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 100%);
+}
+
+/* --------------------------------------------------------------- reveal */
+
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(22px);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.8s var(--ease-out-quint),
+    transform 0.8s var(--ease-out-quint);
 }
 
 .reveal.is-visible {
@@ -113,34 +179,143 @@ body {
   transform: none;
 }
 
+/* -------------------------------------------------------------- marquee */
+
+@keyframes marquee-l {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-r {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.marquee-l { animation: marquee-l var(--marquee-duration, 42s) linear infinite; }
+.marquee-r { animation: marquee-r var(--marquee-duration, 52s) linear infinite; }
+
+.marquee-pause:hover .marquee-l,
+.marquee-pause:hover .marquee-r {
+  animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------- micro-motion */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+@keyframes slide-up-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes sweep {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(320%); }
+}
+
+.animate-float { animation: float 7s ease-in-out infinite; }
+.animate-blink { animation: blink 1.4s ease-in-out infinite; }
+.animate-slide-up-in { animation: slide-up-in 0.45s var(--ease-out-quint) both; }
+
+.pulse-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid currentColor;
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+/* Light sweep across a surface — used on the hero mockup */
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent, rgba(125, 235, 251, 0.09), transparent);
+  animation: sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- accessibility */
+
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .reveal { opacity: 1; transform: none; transition: none; }
+
+  .marquee-l,
+  .marquee-r,
+  .animate-float,
+  .animate-blink,
+  .animate-slide-up-in,
+  .pulse-ring::after,
+  .sweep::after {
+    animation: none !important;
   }
 }
 
-/* Marquee for the trust strip */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+/* ------------------------------------------------- animated SVG backdrops */
+
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(4%, -5%) scale(1.08); }
+  66%      { transform: translate(-3%, 4%) scale(0.95); }
 }
 
-.marquee-track {
-  animation: marquee 38s linear infinite;
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-5%, 6%) scale(1.12); }
 }
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+/* Marching-ants motion for dashed SVG paths */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -1000; }
+}
+
+/* A packet travelling along a connector path */
+@keyframes beam-travel {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.9; }
+}
+
+.drift-a { animation: drift-a 22s ease-in-out infinite; transform-origin: center; }
+.drift-b { animation: drift-b 28s ease-in-out infinite; transform-origin: center; }
+.spin-slow { animation: spin-slow 60s linear infinite; transform-origin: center; }
+.spin-reverse { animation: spin-reverse 85s linear infinite; transform-origin: center; }
+.dash-flow { animation: dash-flow 24s linear infinite; }
+.twinkle { animation: twinkle 4s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
+  .drift-a, .drift-b, .spin-slow, .spin-reverse, .dash-flow, .twinkle {
+    animation: none !important;
   }
 }

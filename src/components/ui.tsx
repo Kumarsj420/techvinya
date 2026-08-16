@@ -23,18 +23,26 @@ export function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className={`py-20 sm:py-28 ${className}`}>
-      <Container>{children}</Container>
+    <section id={id} className={`relative py-20 sm:py-28 ${className}`}>
+      <Container className="relative">{children}</Container>
     </section>
   );
 }
 
 /* ------------------------------------------------------------- typography */
 
-export function Eyebrow({ children }: { children: React.ReactNode }) {
+export function Eyebrow({
+  children,
+  className = "text-brand",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <p className="mb-4 flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] text-brand uppercase">
-      <span className="h-px w-6 bg-brand/50" aria-hidden="true" />
+    <p
+      className={`mb-4 flex items-center gap-2.5 font-mono text-[11px] font-medium tracking-[0.22em] uppercase ${className}`}
+    >
+      <span className="h-px w-7 bg-current opacity-50" aria-hidden="true" />
       {children}
     </p>
   );
@@ -56,17 +64,17 @@ export function SectionHeading({
     <div className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
       {eyebrow ? (
         centered ? (
-          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-brand uppercase">
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.22em] text-brand uppercase">
             {eyebrow}
           </p>
         ) : (
           <Eyebrow>{eyebrow}</Eyebrow>
         )
       ) : null}
-      <h2 className="text-3xl font-semibold tracking-tight text-white text-balance sm:text-4xl">
-        {title}
-      </h2>
-      {body ? <p className="mt-5 text-lg leading-relaxed text-muted text-pretty">{body}</p> : null}
+      <h2 className="display text-4xl text-balance text-white sm:text-5xl">{title}</h2>
+      {body ? (
+        <p className="mt-5 text-lg leading-relaxed text-muted text-pretty">{body}</p>
+      ) : null}
     </div>
   );
 }
@@ -81,13 +89,14 @@ type ButtonProps = {
   withArrow?: boolean;
 };
 
-const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200";
+const base =
+  "group/btn relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-300";
 
-const buttonVariants = {
+const variants = {
   primary:
-    "bg-brand text-ink hover:bg-brand-soft shadow-[0_0_28px_-6px_var(--color-brand)] hover:shadow-[0_0_36px_-4px_var(--color-brand)]",
-  secondary: "border border-line bg-surface/60 text-white hover:border-brand/60 hover:bg-surface-2",
+    "bg-brand text-ink shadow-[0_0_0_0_rgba(34,211,238,0.5)] hover:shadow-[0_10px_40px_-8px_rgba(34,211,238,0.7)] hover:-translate-y-0.5",
+  secondary:
+    "border border-line bg-surface/50 text-white backdrop-blur-sm hover:border-brand/50 hover:bg-surface hover:-translate-y-0.5",
   ghost: "text-body hover:text-brand",
 } as const;
 
@@ -99,9 +108,18 @@ export function Button({
   withArrow = false,
 }: ButtonProps) {
   return (
-    <Link href={href} className={`${buttonBase} ${buttonVariants[variant]} ${className}`}>
-      {children}
-      {withArrow ? <ArrowRight /> : null}
+    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+      {/* shine that sweeps across on hover */}
+      {variant === "primary" ? (
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/45 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full"
+        />
+      ) : null}
+      <span className="relative">{children}</span>
+      {withArrow ? (
+        <ArrowRight className="relative size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+      ) : null}
     </Link>
   );
 }
@@ -110,7 +128,7 @@ export function Button({
 
 export function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-line bg-surface/70 px-3 py-1 text-xs font-medium text-muted">
+    <span className="inline-flex items-center rounded-full border border-line bg-surface/60 px-3 py-1 font-mono text-[11px] text-muted">
       {children}
     </span>
   );
@@ -118,8 +136,20 @@ export function Pill({ children }: { children: React.ReactNode }) {
 
 export function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/10 px-3.5 py-1.5 text-xs font-medium text-brand-soft">
-      <span className="size-1.5 rounded-full bg-brand" aria-hidden="true" />
+    <span className="inline-flex items-center gap-2.5 rounded-full border border-brand/25 bg-brand/8 py-2 pr-4 pl-2.5 text-xs font-medium text-brand-soft backdrop-blur-sm">
+      <span className="relative inline-flex size-1.5 rounded-full bg-brand text-brand pulse-ring" />
+      {children}
+    </span>
+  );
+}
+
+/** Big translucent section number used to anchor major sections. */
+export function SectionIndex({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      className="display pointer-events-none absolute -top-6 right-0 text-8xl text-white/4 select-none sm:text-9xl"
+      aria-hidden="true"
+    >
       {children}
     </span>
   );

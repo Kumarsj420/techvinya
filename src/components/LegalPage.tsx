@@ -13,7 +13,7 @@ export function LegalPage({
     <>
       <section className="border-b border-line py-14 sm:py-20">
         <Container>
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h1>
+          <h1 className="display text-5xl text-white sm:text-6xl">{title}</h1>
           <p className="mt-4 text-sm text-faint">Last updated {updated}</p>
         </Container>
       </section>

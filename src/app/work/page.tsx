@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container, Section, SectionHeading, Button, Pill } from "@/components/ui";
+import { AuroraBackdrop } from "@/components/fx/Backdrop";
 import { Icon, ArrowRight } from "@/components/Icons";
 import { Reveal } from "@/components/Reveal";
 import { CtaBanner } from "@/components/CtaBanner";
@@ -119,11 +120,11 @@ export default function WorkPage() {
     <>
       <section className="relative overflow-hidden border-b border-line pt-16 pb-16 sm:pt-24 sm:pb-20">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div className="glow -top-40 left-1/4 size-120 bg-brand" aria-hidden="true" />
+        <AuroraBackdrop variant="violet" />
         <Container className="relative">
-          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-brand uppercase">Work</p>
-          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
-            The systems we build, in detail.
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.22em] text-brand uppercase">Work</p>
+          <h1 className="display max-w-3xl text-5xl text-balance text-white sm:text-6xl lg:text-7xl">
+            The systems we build, in <span className="accent-word">detail</span>.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">
             We&apos;re a new studio, and we&apos;d rather show you real architecture than
@@ -157,7 +158,7 @@ export default function WorkPage() {
                   <Pill>{bp.timeline}</Pill>
                 </div>
 
-                <h3 className="mt-6 text-2xl font-semibold text-white">{bp.title}</h3>
+                <h3 className="display mt-6 text-2xl text-white">{bp.title}</h3>
                 <p className="mt-3 max-w-3xl leading-relaxed text-muted">{bp.brief}</p>
 
                 <div className="mt-8 grid gap-8 border-t border-line pt-8 md:grid-cols-2">
@@ -225,7 +226,7 @@ export default function WorkPage() {
               <span className="inline-flex size-10 items-center justify-center rounded-lg bg-brand/10 text-brand">
                 <Icon name={s.icon} className="size-5" />
               </span>
-              <h3 className="mt-4 font-semibold text-white">{s.name}</h3>
+              <h3 className="display mt-4 text-lg text-white">{s.name}</h3>
               <p className="mt-2 text-sm text-muted">{s.tagline}</p>
               <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-brand">
                 View

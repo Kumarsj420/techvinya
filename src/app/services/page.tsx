@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container, Section, SectionHeading, Button, Pill } from "@/components/ui";
+import { AuroraBackdrop } from "@/components/fx/Backdrop";
 import { Icon, ArrowRight, Check } from "@/components/Icons";
 import { Reveal } from "@/components/Reveal";
 import { CtaBanner } from "@/components/CtaBanner";
@@ -18,13 +19,13 @@ export default function ServicesPage() {
     <>
       <section className="relative overflow-hidden border-b border-line pt-16 pb-16 sm:pt-24 sm:pb-20">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div className="glow -top-40 left-1/3 size-120 bg-brand" aria-hidden="true" />
+        <AuroraBackdrop variant="brand" />
         <Container className="relative">
-          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-brand uppercase">
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.22em] text-brand uppercase">
             Services
           </p>
-          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
-            Everything between an idea and a product in production.
+          <h1 className="display max-w-3xl text-5xl text-balance text-white sm:text-6xl lg:text-7xl">
+            Everything between an idea and a <span className="accent-word">product</span> in production.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">
             We take on the whole build — discovery, design, engineering, infrastructure and the
@@ -54,7 +55,7 @@ export default function ServicesPage() {
                 </span>
 
                 <div>
-                  <h3 className="text-2xl font-semibold text-white">{service.name}</h3>
+                  <h3 className="display text-2xl text-white">{service.name}</h3>
                   <p className="mt-2 text-brand-soft">{service.tagline}</p>
                   <p className="mt-4 max-w-2xl leading-relaxed text-muted">{service.short}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
@@ -90,7 +91,7 @@ export default function ServicesPage() {
                 <span className="inline-flex size-11 items-center justify-center rounded-lg bg-brand/10 text-brand">
                   <Icon name={cap.icon} className="size-5" />
                 </span>
-                <h3 className="mt-5 text-lg font-semibold text-white">{cap.title}</h3>
+                <h3 className="display mt-5 text-xl text-white">{cap.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{cap.body}</p>
               </div>
             </Reveal>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Section } from "@/components/ui";
+import { AuroraBackdrop } from "@/components/fx/Backdrop";
 import { ContactForm } from "@/components/ContactForm";
 import { Icon, Check } from "@/components/Icons";
 import { getService, services } from "@/lib/services";
@@ -31,13 +32,13 @@ export default async function ContactPage({
     <>
       <section className="relative overflow-hidden border-b border-line pt-16 pb-16 sm:pt-24 sm:pb-20">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div className="glow -top-40 left-1/3 size-120 bg-brand" aria-hidden="true" />
+        <AuroraBackdrop variant="emerald" />
         <Container className="relative">
-          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-brand uppercase">
+          <p className="mb-4 font-mono text-[11px] font-medium tracking-[0.22em] text-brand uppercase">
             Contact
           </p>
-          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
-            Let&apos;s talk about what you&apos;re building.
+          <h1 className="display max-w-3xl text-5xl text-balance text-white sm:text-6xl lg:text-7xl">
+            Let&apos;s talk about what you&apos;re <span className="accent-word">building</span>.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">
             Whether it&apos;s a rough idea or a product already in production, send us the details
@@ -54,7 +55,7 @@ export default async function ContactPage({
 
           <aside className="order-1 space-y-6 lg:order-2">
             <div className="card p-8">
-              <h2 className="text-lg font-semibold text-white">What happens next</h2>
+              <h2 className="display text-lg text-white">What happens next</h2>
               <ul className="mt-5 space-y-3.5">
                 {expectations.map((item) => (
                   <li key={item} className="flex gap-3 text-sm text-muted">
@@ -66,7 +67,7 @@ export default async function ContactPage({
             </div>
 
             <div className="card p-8">
-              <h2 className="text-lg font-semibold text-white">Reach us directly</h2>
+              <h2 className="display text-lg text-white">Reach us directly</h2>
               <dl className="mt-5 space-y-4 text-sm">
                 <div>
                   <dt className="text-faint">Email</dt>
@@ -103,7 +104,7 @@ export default async function ContactPage({
             </div>
 
             <div className="card p-8">
-              <h2 className="text-lg font-semibold text-white">Our practices</h2>
+              <h2 className="display text-lg text-white">Our practices</h2>
               <ul className="mt-5 space-y-3">
                 {services.map((s) => (
                   <li key={s.slug} className="flex items-center gap-3 text-sm text-muted">

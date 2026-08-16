@@ -13,7 +13,7 @@ const company = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-surface/30">
+    <footer className="relative overflow-hidden border-t border-line bg-ink-2/60">
       <div className="container-x py-16">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
@@ -69,7 +69,14 @@ export function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
+        {/* Oversized wordmark — the closing full stop of the page */}
+        <div className="mt-16" aria-hidden="true">
+          <span className="display block bg-linear-to-b from-white/8 to-transparent bg-clip-text pb-[0.12em] text-center text-[min(13vw,9rem)] leading-[1.05] text-transparent select-none">
+            TechVinya
+          </span>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-4 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-faint">
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>

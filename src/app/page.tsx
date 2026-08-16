@@ -1,11 +1,17 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Container, Section, SectionHeading, Button, Badge, Pill } from "@/components/ui";
-import { Icon, ArrowRight, Check } from "@/components/Icons";
+import { Container, Section, SectionHeading, Button, Badge, Eyebrow } from "@/components/ui";
+import { Icon, Check } from "@/components/Icons";
 import { Reveal } from "@/components/Reveal";
 import { CtaBanner } from "@/components/CtaBanner";
-import { services, capabilities, process, engagements } from "@/lib/services";
-import { site, stats } from "@/lib/site";
+import { AuroraBackdrop, SectionBackdrop } from "@/components/fx/Backdrop";
+import { Counter } from "@/components/fx/Counter";
+import { SpotlightCard } from "@/components/fx/SpotlightCard";
+import { Marquee } from "@/components/fx/Marquee";
+import { HeroCollage } from "@/components/mockups/Screens";
+import { IndustryTabs } from "@/components/sections/IndustryTabs";
+import { capabilities, process, engagements } from "@/lib/services";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: `${site.name} — ${site.tagline}`,
@@ -13,7 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const techStack = [
+const stackRow = [
   "Next.js",
   "React Native",
   "TypeScript",
@@ -22,29 +28,41 @@ const techStack = [
   "PostgreSQL",
   "Claude API",
   "AWS",
+];
+
+const practiceRow = [
   "Kubernetes",
   "Terraform",
   "Stripe",
-  "FHIR",
+  "FHIR R4",
+  "ClickHouse",
+  "pgvector",
+  "Kafka",
+  "Go",
 ];
 
-const principles = [
-  {
-    title: "Senior engineers only",
-    body: "The people in your kick-off call are the people writing the code. No bait-and-switch to a junior bench after week two.",
-  },
-  {
-    title: "Compliance from day one",
-    body: "HIPAA, GDPR, PCI and SOC 2 constraints shape the architecture at the start — not a panicked retrofit before your first enterprise deal.",
-  },
-  {
-    title: "You own everything",
-    body: "Your repositories, your cloud accounts, your data. Full documentation and a clean handover whenever you want to bring it in-house.",
-  },
-  {
-    title: "Demos, not status reports",
-    body: "Every two weeks you see working software in a staging environment you can click through yourself. Progress you can verify.",
-  },
+const heroStats = [
+  { value: 4, suffix: "", label: "industry practices" },
+  { value: 6, suffix: "wk", label: "to first release" },
+  { value: 100, suffix: "%", label: "senior engineers" },
+  { value: 24, suffix: "h", label: "response time" },
+];
+
+const compliance = [
+  "HIPAA-aligned",
+  "GDPR",
+  "SOC 2 readiness",
+  "PCI-DSS aware",
+  "ISO 27001 practices",
+  "WCAG 2.2 AA",
+];
+
+const comparison = [
+  { point: "Who writes your code", them: "A junior bench after the pitch", us: "The seniors you met on day one" },
+  { point: "Compliance", them: "A hardening sprint before launch", us: "Shaped into the architecture in week one" },
+  { point: "Progress reporting", them: "A slide deck every fortnight", us: "A staging URL you can click through" },
+  { point: "Ownership", them: "Their repos, their cloud, their lock-in", us: "Your repos, your cloud, from commit one" },
+  { point: "After launch", them: "A support ticket queue", us: "On-call with you through first traffic" },
 ];
 
 const faqs = [
@@ -74,11 +92,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <TrustStrip />
-      <Industries />
-      <Capabilities />
-      <Principles />
-      <Process />
+      <TickerBand />
+      <StatBand />
+      <Practices />
+      <CapabilityBento />
+      <ProcessRail />
+      <Comparison />
+      <ComplianceStrip />
       <Engagements />
       <Faq />
       <CtaBanner />
@@ -90,59 +110,67 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
+    <section className="relative overflow-hidden pt-12 pb-24 sm:pt-20 sm:pb-32">
+      <AuroraBackdrop />
       <div className="grid-bg absolute inset-0" aria-hidden="true" />
-      <div
-        className="glow -top-56 -left-32 size-136 bg-brand"
-        aria-hidden="true"
-      />
-      <div
-        className="glow -top-24 -right-40 size-120 bg-accent"
-        aria-hidden="true"
-      />
 
       <Container className="relative">
-        <div className="max-w-3xl">
-          <Reveal>
-            <Badge>Now taking projects for Q4 2026</Badge>
-          </Reveal>
+        <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+          <div>
+            <Reveal>
+              <Badge>Now taking projects for Q4 2026</Badge>
+            </Reveal>
 
-          <Reveal delay={80}>
-            <h1 className="mt-7 text-4xl leading-[1.08] font-semibold tracking-tight text-balance text-white sm:text-6xl lg:text-7xl">
-              We build the software your <span className="text-gradient">startup</span> is judged
-              on.
-            </h1>
-          </Reveal>
+            <Reveal delay={80}>
+              <h1 className="display mt-7 text-5xl text-balance text-white sm:text-6xl lg:text-7xl">
+                We build the software your startup is{" "}
+                <span className="accent-word">judged</span> on.
+              </h1>
+            </Reveal>
 
-          <Reveal delay={160}>
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-              TechVinya is a product engineering studio for travel, healthcare, cybersecurity and
-              AI companies. Web apps, mobile apps and AI systems — designed, built and shipped to
-              production by senior engineers who have done it before.
-            </p>
-          </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted text-pretty">
+                A product engineering studio for travel, healthcare, cybersecurity and AI
+                companies. Web apps, mobile apps and AI systems — designed, built and shipped to
+                production by senior engineers who have done it before.
+              </p>
+            </Reveal>
 
-          <Reveal delay={240}>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button href="/contact" withArrow>
-                Start a project
-              </Button>
-              <Button href="/services" variant="secondary">
-                See what we build
-              </Button>
-            </div>
-          </Reveal>
+            <Reveal delay={240}>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Button href="/contact" withArrow>
+                  Start a project
+                </Button>
+                <Button href="/services" variant="secondary">
+                  See what we build
+                </Button>
+              </div>
+            </Reveal>
 
-          <Reveal delay={320}>
-            <dl className="mt-16 grid grid-cols-2 gap-6 border-t border-line pt-10 sm:grid-cols-4">
-              {stats.map((stat) => (
-                <div key={stat.label}>
-                  <dt className="sr-only">{stat.label}</dt>
-                  <dd className="text-3xl font-semibold tracking-tight text-white">{stat.value}</dd>
-                  <p className="mt-1.5 text-sm text-faint">{stat.label}</p>
+            <Reveal delay={320}>
+              <div className="mt-10 flex items-center gap-4">
+                <div className="flex -space-x-2.5">
+                  {["#22d3ee", "#34d399", "#a78bfa", "#fbbf24"].map((c) => (
+                    <span
+                      key={c}
+                      className="size-8 rounded-full border-2 border-ink"
+                      style={{ background: `linear-gradient(140deg, ${c}, ${c}44)` }}
+                      aria-hidden="true"
+                    />
+                  ))}
                 </div>
-              ))}
-            </dl>
+                <p className="text-sm text-muted">
+                  Four practices, one senior team —{" "}
+                  <Link href="/about" className="text-brand hover:text-brand-soft">
+                    how we work
+                  </Link>
+                </p>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={200} className="lg:pl-6">
+            <HeroCollage />
           </Reveal>
         </div>
       </Container>
@@ -150,182 +178,168 @@ function Hero() {
   );
 }
 
-/* ------------------------------------------------------------- trust strip */
+/* ------------------------------------------------------------ ticker band */
 
-function TrustStrip() {
+function TickerBand() {
   return (
-    <div className="border-y border-line bg-surface/25 py-7">
-      <p className="container-x mb-6 text-center text-xs font-semibold tracking-[0.18em] text-faint uppercase">
+    <div className="relative border-y border-line bg-surface/20 py-8">
+      <p className="container-x mb-5 text-center font-mono text-[11px] tracking-[0.22em] text-faint uppercase">
         The stack we build production systems on
       </p>
-      <div
-        className="relative flex overflow-hidden mask-[linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
-        aria-hidden="true"
-      >
-        <div className="marquee-track flex shrink-0 items-center gap-12 pr-12">
-          {[...techStack, ...techStack].map((tech, i) => (
-            <span
-              key={`${tech}-${i}`}
-              className="font-mono text-sm whitespace-nowrap text-muted/70"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+      <div className="space-y-3">
+        <Marquee items={stackRow} direction="left" duration={44} />
+        <Marquee items={practiceRow} direction="right" duration={54} />
       </div>
-      <p className="sr-only">
-        Technologies we work with: {techStack.join(", ")}.
-      </p>
     </div>
   );
 }
 
-/* -------------------------------------------------------------- industries */
+/* -------------------------------------------------------------- stat band */
 
-function Industries() {
+function StatBand() {
   return (
-    <Section id="industries">
-      <SectionHeading
-        eyebrow="Industries"
-        title="Four practices. Deep context in each."
-        body="Generalist agencies relearn your domain on your budget. We've concentrated on four industries where the hard part isn't the interface — it's the regulation, the integrations and the load."
-      />
-
-      <div className="mt-14 grid gap-6 lg:grid-cols-2">
-        {services.map((service, i) => (
-          <Reveal key={service.slug} delay={i * 70}>
-            <Link
-              href={`/services/${service.slug}`}
-              className="card group flex h-full flex-col p-8 hover:-translate-y-1 hover:border-brand/45 hover:bg-surface"
-            >
-              <span className="inline-flex size-12 items-center justify-center rounded-xl border border-brand/25 bg-brand/10 text-brand">
-                <Icon name={service.icon} />
-              </span>
-
-              <h3 className="mt-6 text-xl font-semibold text-white">{service.name}</h3>
-              <p className="mt-3 flex-1 leading-relaxed text-muted">{service.short}</p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {service.standards.slice(0, 3).map((standard) => (
-                  <Pill key={standard}>{standard}</Pill>
-                ))}
-              </div>
-
-              <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand">
-                Explore {service.name.split(" ")[0].toLowerCase()} work
-                <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </span>
-            </Link>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ------------------------------------------------------------ capabilities */
-
-function Capabilities() {
-  return (
-    <Section id="capabilities" className="border-t border-line bg-surface/20">
-      <SectionHeading
-        eyebrow="Capabilities"
-        title="One team, the whole product"
-        body="Design, engineering and infrastructure under one roof — so nobody is waiting on a hand-off between three vendors."
-      />
-
-      <div className="mt-14 grid gap-px overflow-hidden rounded-xl2 border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-        {capabilities.map((cap, i) => (
-          <Reveal key={cap.title} delay={i * 50}>
-            <div className="group h-full bg-ink p-8 transition-colors duration-300 hover:bg-surface">
-              <span className="inline-flex size-11 items-center justify-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand/20">
-                <Icon name={cap.icon} className="size-5" />
-              </span>
-              <h3 className="mt-5 text-lg font-semibold text-white">{cap.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{cap.body}</p>
+    <Section className="py-14 sm:py-16">
+      <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+        {heroStats.map((stat, i) => (
+          <Reveal key={stat.label} delay={i * 70}>
+            <div className="border-l border-line pl-5">
+              <dd className="display text-4xl text-white sm:text-5xl">
+                <Counter value={stat.value} suffix={stat.suffix} />
+              </dd>
+              <dt className="mt-2 text-sm text-faint">{stat.label}</dt>
             </div>
           </Reveal>
         ))}
+      </dl>
+    </Section>
+  );
+}
+
+/* -------------------------------------------------------------- practices */
+
+function Practices() {
+  return (
+    <Section id="industries" className="border-t border-line">
+      <SectionBackdrop color="#22d3ee" />
+      <SectionHeading
+        eyebrow="Industry practices"
+        title={
+          <>
+            Four practices. <span className="accent-word">Deep</span> context in each.
+          </>
+        }
+        body="Generalist agencies relearn your domain on your budget. We've concentrated on four industries where the hard part isn't the interface — it's the regulation, the integrations and the load."
+      />
+
+      <div className="mt-14">
+        <IndustryTabs />
       </div>
     </Section>
   );
 }
 
-/* -------------------------------------------------------------- principles */
+/* ----------------------------------------------------------------- bento */
 
-function Principles() {
+function CapabilityBento() {
+  // Tiles a 6-column grid exactly: a tall feature card beside two stacked
+  // cards, then a row of three. Any other split leaves a hole in the grid.
+  const spans = [
+    "lg:col-span-3 lg:row-span-2",
+    "lg:col-span-3",
+    "lg:col-span-3",
+    "lg:col-span-2",
+    "lg:col-span-2",
+    "lg:col-span-2",
+  ];
+
   return (
-    <Section id="why">
-      <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading
-            eyebrow="Why TechVinya"
-            title="An agency that behaves like your own team"
-            body="We're a small studio by choice. That means you get the people you met, working the way you'd want an in-house team to work."
-          />
-          <div className="mt-9">
-            <Button href="/about" variant="secondary" withArrow>
-              How we work
-            </Button>
-          </div>
-        </div>
+    <Section id="capabilities" className="border-t border-line bg-ink-2/40">
+      <SectionHeading
+        eyebrow="Capabilities"
+        title={
+          <>
+            One team, the <span className="accent-word">whole</span> product
+          </>
+        }
+        body="Design, engineering and infrastructure under one roof — so nobody is waiting on a hand-off between three vendors."
+        align="center"
+      />
 
-        <ul className="space-y-5">
-          {principles.map((item, i) => (
-            <Reveal key={item.title} as="li" delay={i * 70}>
-              <div className="card flex gap-5 p-7 hover:border-brand/35">
-                <span className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-brand/12 text-brand">
-                  <Check className="size-4" />
-                </span>
+      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:auto-rows-fr lg:grid-cols-6">
+        {capabilities.map((cap, i) => {
+          const feature = i === 0;
+          return (
+            <Reveal key={cap.title} delay={i * 60} className={spans[i]}>
+              <SpotlightCard className="card card-lit flex h-full flex-col justify-between p-7 transition hover:-translate-y-1 hover:border-brand/40 sm:p-8">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                  <p className="mt-2.5 leading-relaxed text-muted">{item.body}</p>
+                  <span className="inline-flex size-12 items-center justify-center rounded-2xl border border-brand/20 bg-brand/10 text-brand">
+                    <Icon name={cap.icon} className="size-5" />
+                  </span>
+                  <h3
+                    className={`display mt-6 text-white ${feature ? "text-2xl sm:text-3xl" : "text-xl"}`}
+                  >
+                    {cap.title}
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-muted">{cap.body}</p>
                 </div>
-              </div>
+
+                {feature ? (
+                  <div className="mt-8 flex flex-wrap gap-2">
+                    {["Discovery", "Design", "Build", "Ship", "Scale"].map((step) => (
+                      <span
+                        key={step}
+                        className="rounded-full border border-line bg-ink/50 px-3 py-1.5 font-mono text-[11px] text-faint"
+                      >
+                        {step}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </SpotlightCard>
             </Reveal>
-          ))}
-        </ul>
+          );
+        })}
       </div>
     </Section>
   );
 }
 
-/* ----------------------------------------------------------------- process */
+/* --------------------------------------------------------------- process */
 
-function Process() {
+function ProcessRail() {
   return (
-    <Section id="process" className="border-t border-line bg-surface/20">
+    <Section id="process" className="border-t border-line">
+      <SectionBackdrop color="#6366f1" />
       <SectionHeading
         eyebrow="Process"
-        title="From first call to live product"
+        title={
+          <>
+            From first call to <span className="accent-word">live</span> product
+          </>
+        }
         body="A rhythm we've refined so you always know what's happening, what's next, and what it costs."
         align="center"
       />
 
-      <ol className="relative mt-16 space-y-4 md:space-y-0">
-        {/* Connecting rail on desktop */}
-        <div
-          className="absolute top-0 left-[1.4rem] hidden h-full w-px bg-linear-to-b from-brand/60 via-line to-transparent md:block"
-          aria-hidden="true"
-        />
-
+      <ol className="mt-16 grid gap-4 lg:grid-cols-5">
         {process.map((phase, i) => (
-          <Reveal key={phase.step} as="li" delay={i * 60}>
-            <div className="relative flex flex-col gap-4 rounded-xl2 border border-line bg-ink/50 p-7 md:ml-0 md:flex-row md:items-start md:gap-8 md:border-0 md:bg-transparent md:py-8 md:pl-16">
-              <span className="absolute left-0 hidden size-11 items-center justify-center rounded-full border border-brand/35 bg-ink font-mono text-xs font-semibold text-brand md:inline-flex">
-                {phase.step}
-              </span>
-
-              <div className="md:w-52 md:shrink-0">
-                <h3 className="text-xl font-semibold text-white">
-                  <span className="mr-2 font-mono text-sm text-brand md:hidden">{phase.step}</span>
-                  {phase.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-faint">{phase.duration}</p>
+          <Reveal key={phase.step} as="li" delay={i * 70}>
+            <SpotlightCard className="card group flex h-full flex-col p-6 transition hover:-translate-y-1 hover:border-brand/40">
+              <div className="flex items-center justify-between">
+                <span className="display text-3xl text-white/10 transition-colors duration-300 group-hover:text-brand/30">
+                  {phase.step}
+                </span>
+                <span className="rounded-full border border-line bg-ink/50 px-2.5 py-1 font-mono text-[10px] text-faint">
+                  {phase.duration}
+                </span>
               </div>
 
-              <p className="leading-relaxed text-muted md:flex-1 md:pt-1">{phase.body}</p>
-            </div>
+              {/* connector rail */}
+              <div className="mt-5 h-px w-full bg-linear-to-r from-brand/50 to-transparent" />
+
+              <h3 className="display mt-5 text-xl text-white">{phase.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{phase.body}</p>
+            </SpotlightCard>
           </Reveal>
         ))}
       </ol>
@@ -333,40 +347,148 @@ function Process() {
   );
 }
 
-/* ------------------------------------------------------------- engagements */
+/* ------------------------------------------------------------ comparison */
+
+function Comparison() {
+  return (
+    <Section className="border-t border-line bg-ink-2/40">
+      <SectionHeading
+        eyebrow="Why TechVinya"
+        title={
+          <>
+            The <span className="accent-word">difference</span> shows up in month three
+          </>
+        }
+        body="Every agency sounds the same in the pitch. Here's where the paths separate."
+      />
+
+      <Reveal>
+        <div className="card mt-12 overflow-hidden p-0">
+          {/* header row */}
+          <div className="grid grid-cols-[1fr_1fr] border-b border-line sm:grid-cols-[1.2fr_1fr_1fr]">
+            <div className="hidden p-5 sm:block" />
+            <div className="border-l border-line p-5">
+              <p className="font-mono text-[11px] tracking-[0.18em] text-faint uppercase">
+                Typical agency
+              </p>
+            </div>
+            <div className="border-l border-line bg-brand/6 p-5">
+              <p className="font-mono text-[11px] tracking-[0.18em] text-brand uppercase">
+                TechVinya
+              </p>
+            </div>
+          </div>
+
+          {comparison.map((row) => (
+            <div
+              key={row.point}
+              className="grid grid-cols-[1fr_1fr] border-b border-line last:border-0 sm:grid-cols-[1.2fr_1fr_1fr]"
+            >
+              <p className="col-span-2 px-5 pt-5 text-sm font-medium text-white sm:col-span-1 sm:py-5">
+                {row.point}
+              </p>
+              <div className="flex items-start gap-2.5 border-l border-line p-5 sm:border-l">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="mt-0.5 size-4 shrink-0 text-faint"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+                <p className="text-sm text-faint">{row.them}</p>
+              </div>
+              <div className="flex items-start gap-2.5 border-l border-line bg-brand/6 p-5">
+                <Check className="mt-0.5 size-4 shrink-0 text-brand" />
+                <p className="text-sm text-body">{row.us}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------- compliance strip */
+
+function ComplianceStrip() {
+  return (
+    <div className="relative border-y border-line py-10">
+      <Container>
+        <div className="flex flex-col items-center gap-7 lg:flex-row lg:justify-between">
+          <p className="max-w-xs text-center text-sm text-muted lg:text-left">
+            Built against the standards your enterprise buyers and auditors will ask about.
+          </p>
+          <div className="flex max-w-3xl flex-wrap justify-center gap-2.5 lg:justify-end">
+            {compliance.map((item) => (
+              <span
+                key={item}
+                className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface/50 px-4 py-2.5 text-sm text-body"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-3.5 text-brand"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3 5 6v6c0 4.2 2.9 7.7 7 9 4.1-1.3 7-4.8 7-9V6z" />
+                </svg>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------ engagements */
 
 function Engagements() {
   return (
     <Section id="engagements">
       <SectionHeading
         eyebrow="Engagements"
-        title="Three ways to work with us"
+        title={
+          <>
+            Three ways to <span className="accent-word">work</span> with us
+          </>
+        }
         body="Every project is scoped and quoted individually — these are the shapes most clients start from."
         align="center"
       />
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-3">
+      <div className="mt-14 grid gap-5 lg:grid-cols-3">
         {engagements.map((plan, i) => (
           <Reveal key={plan.name} delay={i * 70}>
-            <div
-              className={`card flex h-full flex-col p-8 ${
+            <SpotlightCard
+              className={`card flex h-full flex-col p-8 transition hover:-translate-y-1 ${
                 plan.highlight
-                  ? "border-brand/45 bg-surface shadow-[0_0_60px_-24px_var(--color-brand)]"
-                  : ""
+                  ? "card-lit border-brand/45 shadow-[0_0_80px_-30px_rgba(34,211,238,0.8)]"
+                  : "hover:border-brand/35"
               }`}
             >
-              {plan.highlight ? (
-                <span className="mb-5 inline-flex w-fit rounded-full bg-brand px-3 py-1 text-xs font-semibold text-ink">
-                  Most popular
-                </span>
-              ) : null}
+              {/* Reserved on every card so the price rows align across all three. */}
+              <div className="mb-5 h-6">
+                {plan.highlight ? (
+                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-ink">
+                    Most popular
+                  </span>
+                ) : null}
+              </div>
 
-              <h3 className="text-xl font-semibold text-white">{plan.name}</h3>
+              <h3 className="display text-2xl text-white">{plan.name}</h3>
               <p className="mt-2.5 text-sm text-muted">{plan.summary}</p>
 
               <div className="mt-7 border-y border-line py-5">
-                <p className="text-2xl font-semibold text-white">{plan.price}</p>
-                <p className="mt-1 text-sm text-faint">{plan.duration}</p>
+                <p className="display text-3xl text-white">{plan.price}</p>
+                <p className="mt-1.5 font-mono text-xs text-faint">{plan.duration}</p>
               </div>
 
               <ul className="mt-7 flex-1 space-y-3.5">
@@ -385,7 +507,7 @@ function Engagements() {
               >
                 Talk to us
               </Button>
-            </div>
+            </SpotlightCard>
           </Reveal>
         ))}
       </div>
@@ -397,20 +519,27 @@ function Engagements() {
 
 function Faq() {
   return (
-    <Section id="faq" className="border-t border-line bg-surface/20">
+    <Section id="faq" className="border-t border-line bg-ink-2/40">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-        <SectionHeading
-          eyebrow="FAQ"
-          title="Questions we get asked first"
-          body="Something not covered here? Ask us directly — we answer plainly."
-        />
+        <div>
+          <Eyebrow>FAQ</Eyebrow>
+          <h2 className="display text-4xl text-balance text-white sm:text-5xl">
+            Questions we get <span className="accent-word">asked</span> first
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-muted">
+            Something not covered here? Ask us directly — we answer plainly.
+          </p>
+          <Button href="/contact" variant="secondary" className="mt-8" withArrow>
+            Ask a question
+          </Button>
+        </div>
 
         <div className="divide-y divide-line border-y border-line">
           {faqs.map((faq) => (
             <details key={faq.q} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-medium text-white marker:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-medium text-white transition group-hover:text-brand-soft marker:hidden">
                 {faq.q}
-                <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-line text-muted transition group-open:rotate-45 group-open:border-brand/50 group-open:text-brand">
+                <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-line text-muted transition duration-300 group-open:rotate-45 group-open:border-brand/50 group-open:bg-brand/10 group-open:text-brand">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -447,4 +576,3 @@ function Faq() {
     </Section>
   );
 }
-

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
+import { AuroraBackdrop } from "@/components/fx/Backdrop";
 import { Icon, ArrowRight, Check } from "@/components/Icons";
 import { Reveal } from "@/components/Reveal";
 import { CtaBanner } from "@/components/CtaBanner";
@@ -45,7 +46,7 @@ export default async function ServicePage({ params }: Params) {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-line pt-14 pb-16 sm:pt-20 sm:pb-20">
         <div className="grid-bg absolute inset-0" aria-hidden="true" />
-        <div className="glow -top-40 -left-24 size-120 bg-brand" aria-hidden="true" />
+        <AuroraBackdrop variant="brand" />
 
         <Container className="relative">
           <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-2 text-sm text-faint">
@@ -132,7 +133,7 @@ export default async function ServicePage({ params }: Params) {
                 <span className="font-mono text-xs text-brand">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-3 text-lg font-semibold text-white">{cap.title}</h3>
+                <h3 className="display mt-3 text-lg text-white">{cap.title}</h3>
                 <p className="mt-3 leading-relaxed text-muted">{cap.body}</p>
               </div>
             </Reveal>
@@ -144,7 +145,7 @@ export default async function ServicePage({ params }: Params) {
       <Section>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="card p-8 sm:p-10">
-            <h2 className="text-2xl font-semibold text-white">Built to these standards</h2>
+            <h2 className="display text-2xl text-white">Built to these standards</h2>
             <p className="mt-3 leading-relaxed text-muted">
               Compliance and accessibility requirements shape the architecture from the first
               sprint, so they never become a launch blocker.
@@ -160,7 +161,7 @@ export default async function ServicePage({ params }: Params) {
           </div>
 
           <div className="card p-8 sm:p-10">
-            <h2 className="text-2xl font-semibold text-white">Typical stack</h2>
+            <h2 className="display text-2xl text-white">Typical stack</h2>
             <p className="mt-3 leading-relaxed text-muted">
               Boring, well-supported technology chosen for the next five years of your product —
               not for our CV.
@@ -210,7 +211,7 @@ export default async function ServicePage({ params }: Params) {
 
       {/* Other practices */}
       <Section>
-        <h2 className="text-2xl font-semibold text-white">Other practices</h2>
+        <h2 className="display text-2xl text-white">Other practices</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-3">
           {others.map((other) => (
             <Link
@@ -221,7 +222,7 @@ export default async function ServicePage({ params }: Params) {
               <span className="inline-flex size-10 items-center justify-center rounded-lg bg-brand/10 text-brand">
                 <Icon name={other.icon} className="size-5" />
               </span>
-              <h3 className="mt-4 font-semibold text-white">{other.name}</h3>
+              <h3 className="display mt-4 text-lg text-white">{other.name}</h3>
               <span className="mt-3 inline-flex items-center gap-1.5 text-sm text-brand">
                 View
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
