@@ -199,15 +199,23 @@ function TickerBand() {
 function StatBand() {
   return (
     <Section className="py-14 sm:py-16">
+      {/*
+        A <dl> may only contain <dt>/<dd> pairs or a single <div> wrapping them,
+        with <dt> first. Reveal already renders that <div>, so the term and
+        description sit directly inside it — and flex-col-reverse keeps the
+        number visually above its label while preserving the required order.
+      */}
       <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
         {heroStats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i * 70}>
-            <div className="border-l border-line pl-5">
-              <dd className="display text-4xl text-white sm:text-5xl">
-                <Counter value={stat.value} suffix={stat.suffix} />
-              </dd>
-              <dt className="mt-2 text-sm text-faint">{stat.label}</dt>
-            </div>
+          <Reveal
+            key={stat.label}
+            delay={i * 70}
+            className="flex flex-col-reverse border-l border-line pl-5"
+          >
+            <dt className="mt-2 text-sm text-faint">{stat.label}</dt>
+            <dd className="display text-4xl text-white sm:text-5xl">
+              <Counter value={stat.value} suffix={stat.suffix} />
+            </dd>
           </Reveal>
         ))}
       </dl>
