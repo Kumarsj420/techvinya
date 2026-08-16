@@ -150,7 +150,7 @@ function Hero() {
             <Reveal delay={320}>
               <div className="mt-10 flex items-center gap-4">
                 <div className="flex -space-x-2.5">
-                  {["#22d3ee", "#34d399", "#a78bfa", "#fbbf24"].map((c) => (
+                  {["#01fff6", "#34d399", "#a78bfa", "#fbbf24"].map((c) => (
                     <span
                       key={c}
                       className="size-8 rounded-full border-2 border-ink"
@@ -220,7 +220,7 @@ function StatBand() {
 function Practices() {
   return (
     <Section id="industries" className="border-t border-line">
-      <SectionBackdrop color="#22d3ee" />
+      <SectionBackdrop color="#01fff6" />
       <SectionHeading
         eyebrow="Industry practices"
         title={
@@ -470,7 +470,7 @@ function Engagements() {
             <SpotlightCard
               className={`card flex h-full flex-col p-8 transition hover:-translate-y-1 ${
                 plan.highlight
-                  ? "card-lit border-brand/45 shadow-[0_0_80px_-30px_rgba(34,211,238,0.8)]"
+                  ? "card-lit border-brand/45 shadow-[0_0_80px_-30px_rgba(1,255,246,0.8)]"
                   : "hover:border-brand/35"
               }`}
             >

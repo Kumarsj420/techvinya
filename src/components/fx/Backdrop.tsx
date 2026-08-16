@@ -13,10 +13,10 @@ export function AuroraBackdrop({
   variant?: "brand" | "violet" | "amber" | "emerald";
 }) {
   const palettes = {
-    brand: ["#22d3ee", "#6366f1"],
-    violet: ["#a78bfa", "#22d3ee"],
-    amber: ["#fbbf24", "#22d3ee"],
-    emerald: ["#34d399", "#22d3ee"],
+    brand: ["#01fff6", "#6366f1"],
+    violet: ["#a78bfa", "#01fff6"],
+    amber: ["#fbbf24", "#01fff6"],
+    emerald: ["#34d399", "#01fff6"],
   } as const;
 
   const [c1, c2] = palettes[variant];
@@ -106,7 +106,7 @@ export function AuroraBackdrop({
 /** A quieter version for mid-page section bands. */
 export function SectionBackdrop({
   className = "",
-  color = "#22d3ee",
+  color = "#01fff6",
 }: {
   className?: string;
   color?: string;
@@ -152,8 +152,8 @@ export function BeamBackdrop({ className = "" }: { className?: string }) {
       >
         <defs>
           <linearGradient id="beam-g" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.32" />
-            <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+            <stop offset="0%" stopColor="#01fff6" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="#01fff6" stopOpacity="0" />
           </linearGradient>
         </defs>
 

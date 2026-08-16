@@ -10,7 +10,7 @@ import { useRef } from "react";
 export function SpotlightCard({
   children,
   className = "",
-  color = "34, 211, 238",
+  color = "1, 255, 246",
   as: Tag = "div",
 }: {
   children: React.ReactNode;

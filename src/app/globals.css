@@ -10,12 +10,12 @@
   --color-line-soft: #141d2f;
 
   /* --------------------------------------------------------------- brand */
-  --color-brand: #22d3ee;
-  --color-brand-soft: #7debfb;
-  --color-brand-deep: #0b7c94;
+  --color-brand: #01FFF6;
+  --color-brand-soft: #9ffffb;
+  --color-brand-deep: #018f89;
 
   /* Per-industry accents — colour-codes the whole site */
-  --color-travel: #22d3ee;
+  --color-travel: #01fff6;
   --color-medical: #34d399;
   --color-cyber: #a78bfa;
   --color-ai: #fbbf24;

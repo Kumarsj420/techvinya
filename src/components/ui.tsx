@@ -94,7 +94,7 @@ const base =
 
 const variants = {
   primary:
-    "bg-brand text-ink shadow-[0_0_0_0_rgba(34,211,238,0.5)] hover:shadow-[0_10px_40px_-8px_rgba(34,211,238,0.7)] hover:-translate-y-0.5",
+    "bg-brand text-ink shadow-[0_0_0_0_rgba(1,255,246,0.5)] hover:shadow-[0_10px_40px_-8px_rgba(1,255,246,0.7)] hover:-translate-y-0.5",
   secondary:
     "border border-line bg-surface/50 text-white backdrop-blur-sm hover:border-brand/50 hover:bg-surface hover:-translate-y-0.5",
   ghost: "text-body hover:text-brand",
