@@ -42,3 +42,6 @@ next-env.d.ts
 
 # ...but the template is meant to be committed
 !.env.example
+
+# Client contracts — never commit. This repository is public.
+/contracts/
