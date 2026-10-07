@@ -14,25 +14,22 @@ const GREY = "#ACB7C7";
 
 /**
  * The mark on its own — favicon, avatars, the share image, anywhere too small
- * for the wordmark. Artwork spans 116–396 of the 512 grid, so it carries its
- * own ~11% margin and survives circular and squircle cropping.
+ * for the wordmark.
  */
 export function LogoMark({ className = "size-9" }: { className?: string }) {
   return (
     <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
-      <path
-        className="fill-current"
-        d="M134.667 166.4L116 116H280.267L261.6 166.4H134.667Z"
-      />
-      <path
-        className="fill-current"
-        d="M149.6 205.6L224.267 396H280.267L249.576 315.733L207.467 205.6H149.6Z"
-      />
-      <path className="fill-brand" d="M338.133 116H396L375.467 166.4H315.733L338.133 116Z" />
-      <path
-        fill={GREY}
-        d="M358.667 205.6H300.8L249.576 315.733L280.267 396L358.667 205.6Z"
-      />
+      {/* Scaled about the centre so the mark fills the icon slot. Unscaled it
+          spanned only ~55% of the 512 grid and read small in a browser tab. */}
+      <g transform="translate(256 256) scale(1.25) translate(-256 -256)">
+        <path className="fill-current" d="M134.667 166.4L116 116H280.267L261.6 166.4H134.667Z" />
+        <path
+          className="fill-current"
+          d="M149.6 205.6L224.267 396H280.267L249.576 315.733L207.467 205.6H149.6Z"
+        />
+        <path className="fill-brand" d="M338.133 116H396L375.467 166.4H315.733L338.133 116Z" />
+        <path fill={GREY} d="M358.667 205.6H300.8L249.576 315.733L280.267 396L358.667 205.6Z" />
+      </g>
     </svg>
   );
 }
@@ -75,7 +72,7 @@ export function Logo({ className = "" }: { className?: string }) {
       className={`group inline-flex items-center ${className}`}
       aria-label={`${site.name} — home`}
     >
-      <LogoLockup className="h-7 w-auto text-white transition-transform duration-300 group-hover:scale-105" />
+      <LogoLockup className="h-6 w-auto text-white transition-transform duration-300 group-hover:scale-105" />
     </Link>
   );
 }
