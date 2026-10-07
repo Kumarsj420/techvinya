@@ -34,7 +34,7 @@ export default async function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <svg width="56" height="56" viewBox="0 0 512 512"><path d="M134.667 166.4L116 116H280.267L261.6 166.4H134.667Z" fill="#FFFFFF" /><path d="M149.6 205.6L224.267 396H280.267L249.576 315.733L207.467 205.6H149.6Z" fill="#FFFFFF" /><path d="M338.133 116H396L375.467 166.4H315.733L338.133 116Z" fill="#01FFF6" /><path d="M358.667 205.6H300.8L249.576 315.733L280.267 396L358.667 205.6Z" fill="#ACB7C7" /></svg>
+          <svg width="56" height="56" viewBox="0 0 360 360"><path d="M58.6667 90.4L40 40H204.267L185.6 90.4H58.6667Z" fill="#FFFFFF" /><path d="M73.6 129.6L148.267 320H204.267L173.576 239.733L131.467 129.6H73.6Z" fill="#FFFFFF" /><path d="M262.133 40H320L299.467 90.4H239.733L262.133 40Z" fill="#01FFF6" /><path d="M282.667 129.6H224.8L173.576 239.733L204.267 320L282.667 129.6Z" fill="#ACB7C7" /></svg>
 
           <div style={{ display: "flex", fontSize: 34, fontWeight: 700, color: "#ffffff" }}>
             Tech<span style={{ color: "#01fff6" }}>Vinya</span>

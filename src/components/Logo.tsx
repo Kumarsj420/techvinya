@@ -18,18 +18,14 @@ const GREY = "#ACB7C7";
  */
 export function LogoMark({ className = "size-9" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
-      {/* Scaled about the centre so the mark fills the icon slot. Unscaled it
-          spanned only ~55% of the 512 grid and read small in a browser tab. */}
-      <g transform="translate(256 256) scale(1.25) translate(-256 -256)">
-        <path className="fill-current" d="M134.667 166.4L116 116H280.267L261.6 166.4H134.667Z" />
-        <path
-          className="fill-current"
-          d="M149.6 205.6L224.267 396H280.267L249.576 315.733L207.467 205.6H149.6Z"
-        />
-        <path className="fill-brand" d="M338.133 116H396L375.467 166.4H315.733L338.133 116Z" />
-        <path fill={GREY} d="M358.667 205.6H300.8L249.576 315.733L280.267 396L358.667 205.6Z" />
-      </g>
+    <svg viewBox="0 0 360 360" className={className} aria-hidden="true">
+      <path className="fill-current" d="M58.6667 90.4L40 40H204.267L185.6 90.4H58.6667Z" />
+      <path
+        className="fill-current"
+        d="M73.6 129.6L148.267 320H204.267L173.576 239.733L131.467 129.6H73.6Z"
+      />
+      <path className="fill-brand" d="M262.133 40H320L299.467 90.4H239.733L262.133 40Z" />
+      <path fill={GREY} d="M282.667 129.6H224.8L173.576 239.733L204.267 320L282.667 129.6Z" />
     </svg>
   );
 }
